@@ -2,13 +2,24 @@ from flask import Flask, render_template, request, jsonify
 import sqlite3
 import json
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False  # 确保JSON不转义中文字符
 
+# Vercel环境适配
+def get_db_path():
+    if os.environ.get('VERCEL'):
+        # Vercel环境使用临时文件
+        return '/tmp/student_management.db'
+    else:
+        # 本地环境
+        return 'student_management.db'
+
 # 数据库初始化
 def init_db():
-    conn = sqlite3.connect('student_management.db', check_same_thread=False)
+    db_path = get_db_path()
+    conn = sqlite3.connect(db_path, check_same_thread=False)
     conn.text_factory = lambda x: x.decode('utf-8', 'ignore')  # 正确处理UTF-8编码
     cursor = conn.cursor()
     
@@ -60,7 +71,8 @@ def index():
 # 学生管理API
 @app.route('/api/students', methods=['GET', 'POST'])
 def students_api():
-    conn = sqlite3.connect('student_management.db', check_same_thread=False)
+    db_path = get_db_path()
+    conn = sqlite3.connect(db_path, check_same_thread=False)
     conn.text_factory = lambda x: x.decode('utf-8', 'ignore')  # 正确处理UTF-8编码
     cursor = conn.cursor()
     
@@ -99,7 +111,8 @@ def students_api():
 
 @app.route('/api/students/<student_id>', methods=['GET', 'PUT', 'DELETE'])
 def student_api(student_id):
-    conn = sqlite3.connect('student_management.db')
+    db_path = get_db_path()
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     try:
@@ -141,7 +154,8 @@ def student_api(student_id):
 # 课程管理API
 @app.route('/api/courses', methods=['GET', 'POST'])
 def courses_api():
-    conn = sqlite3.connect('student_management.db')
+    db_path = get_db_path()
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     try:
@@ -176,7 +190,8 @@ def courses_api():
 # 成绩管理API
 @app.route('/api/grades', methods=['GET', 'POST'])
 def grades_api():
-    conn = sqlite3.connect('student_management.db')
+    db_path = get_db_path()
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     try:
@@ -215,7 +230,8 @@ def grades_api():
 # 统计API
 @app.route('/api/statistics/class-average')
 def class_average():
-    conn = sqlite3.connect('student_management.db')
+    db_path = get_db_path()
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     try:
