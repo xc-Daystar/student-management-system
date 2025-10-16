@@ -1,48 +1,49 @@
-from http.server import BaseHTTPRequestHandler
-import json
+from flask import Flask
 import os
 import sys
 
 # 添加项目根目录到Python路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def app():
-    # 延迟导入以避免循环依赖
-    from app import app as flask_app
-    return flask_app
+# 创建Flask应用实例
+app = Flask(__name__)
 
-def handler(request):
+# 导入主应用
+from app import app as main_app
+
+# Vercel Serverless函数入口
+def handler(request, context):
     """Vercel Serverless函数处理程序"""
     try:
-        # 获取Flask应用实例
-        flask_app = app()
+        # 设置环境变量
+        os.environ['VERCEL'] = 'true'
         
         # 构建WSGI环境
         environ = {
-            'REQUEST_METHOD': request.method,
-            'PATH_INFO': request.path,
-            'QUERY_STRING': request.query_string or '',
-            'CONTENT_TYPE': request.headers.get('Content-Type', ''),
-            'CONTENT_LENGTH': request.headers.get('Content-Length', '0'),
+            'REQUEST_METHOD': request['httpMethod'],
+            'PATH_INFO': request['path'],
+            'QUERY_STRING': request.get('rawQuery', ''),
+            'CONTENT_TYPE': request.get('headers', {}).get('content-type', ''),
+            'CONTENT_LENGTH': str(len(request.get('body', '') or '')),
             'wsgi.version': (1, 0),
             'wsgi.url_scheme': 'https',
-            'wsgi.input': request.body,
+            'wsgi.input': request.get('body', ''),
             'wsgi.errors': sys.stderr,
             'wsgi.multithread': False,
             'wsgi.multiprocess': True,
             'wsgi.run_once': False,
             'SERVER_NAME': 'vercel',
             'SERVER_PORT': '443',
-            'VERCEL': 'true',  # 标记为Vercel环境
         }
         
         # 添加HTTP头
-        for key, value in request.headers.items():
+        headers = request.get('headers', {})
+        for key, value in headers.items():
             environ[f'HTTP_{key.upper().replace("-", "_")}'] = value
         
         # 处理请求
-        with flask_app.request_context(environ):
-            response = flask_app.full_dispatch_request()
+        with main_app.request_context(environ):
+            response = main_app.full_dispatch_request()
             
             # 返回Vercel期望的格式
             return {
@@ -56,5 +57,9 @@ def handler(request):
         return {
             'statusCode': 500,
             'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps({'error': f'Server error: {str(e)}'})
+            'body': f'{{"error": "Server error: {str(e)}"}}'
         }
+
+# 兼容旧版Vercel函数格式
+def lambda_handler(event, context):
+    return handler(event, context)
