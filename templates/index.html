@@ -43,6 +43,7 @@
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
         
         .tab {
@@ -55,16 +56,21 @@
             font-size: 16px;
             transition: all 0.3s;
             color: #666;
+            position: relative;
         }
         
         .tab.active {
             background: #667eea;
             color: white;
-            border-radius: 10px;
         }
         
         .tab:hover {
+            background: #f8f9fa;
             color: #333;
+        }
+        
+        .tab.active:hover {
+            background: #5a6fd8;
         }
         
         .tab-content {
@@ -143,6 +149,66 @@
             background: #c82333;
         }
         
+        .edit-btn {
+            background: #28a745;
+        }
+        
+        .edit-btn:hover {
+            background: #218838;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            max-width: 300px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
         .statistics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -163,6 +229,130 @@
             font-weight: bold;
             color: #667eea;
         }
+        
+        /* 数据库选择器样式 */
+        .database-selector {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .db-selector-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .db-label {
+            color: white;
+            font-weight: 600;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .db-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .db-selector select {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #333;
+            font-size: 14px;
+            min-width: 180px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .db-selector select:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .db-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ffa500;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-text {
+            color: white;
+        }
+        
+        .db-status.connected {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+        
+        .db-status.connected .status-dot {
+            background: #28a745;
+            animation: none;
+        }
+        
+        .db-status.error {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+        
+        .db-status.error .status-dot {
+            background: #dc3545;
+            animation: none;
+        }
+        
+        .db-status.warning {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .db-status.warning .status-dot {
+            background: #ffc107;
+            animation: none;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        /* 标签页激活状态增强 */
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* 表格行悬停效果 */
+        table tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-1px);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* 按钮悬停效果增强 */
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -170,6 +360,21 @@
         <header>
             <h1>学生信息管理系统</h1>
             <p>高效管理学生信息、课程和成绩</p>
+            <div class="database-selector">
+                <div class="db-selector-container">
+                    <label class="db-label">数据库模式:</label>
+                    <div class="db-selector">
+                        <select id="dbMode" onchange="switchDbMode()">
+                            <option value="supabase">🌐 Supabase (云端)</option>
+                            <option value="sqlite">💾 SQLite (本地)</option>
+                        </select>
+                        <div class="db-status" id="dbStatus">
+                            <span class="status-dot"></span>
+                            <span class="status-text">检查中...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
         
         <div class="nav-tabs">
@@ -182,33 +387,61 @@
         <!-- 学生管理 -->
         <div id="students" class="tab-content active">
             <h2>学生信息管理</h2>
+            
+            <!-- 数据统计 -->
+            <div class="stats-grid" id="studentsStats"></div>
+            
+            <!-- 搜索功能 -->
+            <div class="search-box">
+                <input type="text" id="studentSearch" placeholder="搜索学生（姓名、学号、班级）">
+                <button onclick="searchStudents()">搜索</button>
+                <button onclick="loadStudents()">重置</button>
+            </div>
+            
             <form id="studentForm">
-                <div class="form-group">
-                    <label>学号:</label>
-                    <input type="text" id="studentId" required>
-                </div>
-                <div class="form-group">
-                    <label>姓名:</label>
-                    <input type="text" id="studentName" required>
-                </div>
-                <div class="form-group">
-                    <label>性别:</label>
-                    <select id="studentGender" required>
-                        <option value="">请选择</option>
-                        <option value="男">男</option>
-                        <option value="女">女</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>年龄:</label>
-                    <input type="number" id="studentAge" required>
-                </div>
-                <div class="form-group">
-                    <label>班级:</label>
-                    <input type="text" id="studentClass" required>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>学号:</label>
+                        <input type="text" id="studentId" required>
+                    </div>
+                    <div class="form-group">
+                        <label>姓名:</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>性别:</label>
+                        <select id="studentGender" required>
+                            <option value="">请选择</option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>年龄:</label>
+                        <input type="number" id="studentAge" required min="10" max="50">
+                    </div>
+                    <div class="form-group">
+                        <label>班级:</label>
+                        <input type="text" id="studentClass" required>
+                    </div>
+                    <div class="form-group">
+                        <label>邮箱:</label>
+                        <input type="email" id="studentEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>电话:</label>
+                        <input type="tel" id="studentPhone">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>地址:</label>
+                        <input type="text" id="studentAddress">
+                    </div>
                 </div>
                 <button type="submit">添加学生</button>
             </form>
+            
+            <div id="studentsLoading" class="loading" style="display: none;">加载中...</div>
+            <div id="studentsError" class="error" style="display: none;"></div>
             
             <table id="studentsTable">
                 <thead>
@@ -218,6 +451,8 @@
                         <th>性别</th>
                         <th>年龄</th>
                         <th>班级</th>
+                        <th>邮箱</th>
+                        <th>电话</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -308,16 +543,37 @@
     <script>
         // 切换标签页
         function switchTab(tabName) {
+            // 移除所有激活状态
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            document.querySelector(`.tab:nth-child(${getTabIndex(tabName)})`).classList.add('active');
-            document.getElementById(tabName).classList.add('active');
-        }
-        
-        function getTabIndex(tabName) {
-            const tabs = ['students', 'courses', 'grades', 'statistics'];
-            return tabs.indexOf(tabName) + 1;
+            // 激活当前标签页
+            const activeTab = document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+            
+            const activeContent = document.getElementById(tabName);
+            if (activeContent) {
+                activeContent.classList.add('active');
+            }
+            
+            // 根据标签页加载相应数据
+            switch(tabName) {
+                case 'students':
+                    loadStudents();
+                    loadStatisticsSummary();
+                    break;
+                case 'courses':
+                    loadCourses();
+                    break;
+                case 'grades':
+                    loadGrades();
+                    break;
+                case 'statistics':
+                    loadStatistics();
+                    break;
+            }
         }
         
         // 学生管理功能
@@ -329,7 +585,10 @@
                 name: document.getElementById('studentName').value,
                 gender: document.getElementById('studentGender').value,
                 age: parseInt(document.getElementById('studentAge').value),
-                class_name: document.getElementById('studentClass').value
+                class_name: document.getElementById('studentClass').value,
+                email: document.getElementById('studentEmail').value,
+                phone: document.getElementById('studentPhone').value,
+                address: document.getElementById('studentAddress').value
             };
             
             try {
@@ -345,6 +604,7 @@
                     alert('学生添加成功');
                     document.getElementById('studentForm').reset();
                     loadStudents();
+                    loadStatisticsSummary();
                 } else {
                     const error = await response.json();
                     alert(error.error || '添加失败');
@@ -356,30 +616,130 @@
         
         // 加载学生列表
         async function loadStudents() {
+            showLoading('studentsLoading', true);
+            hideError('studentsError');
+            
             try {
                 const response = await fetch('/api/students');
+                if (!response.ok) throw new Error('网络请求失败');
+                
                 const students = await response.json();
                 
                 const tbody = document.querySelector('#studentsTable tbody');
                 tbody.innerHTML = '';
                 
-                students.forEach(student => {
+                if (students.length === 0) {
                     const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${student.student_id}</td>
-                        <td>${student.name}</td>
-                        <td>${student.gender}</td>
-                        <td>${student.age}</td>
-                        <td>${student.class_name}</td>
-                        <td class="actions">
-                            <button onclick="editStudent('${student.student_id}')">编辑</button>
-                            <button class="delete-btn" onclick="deleteStudent('${student.student_id}')">删除</button>
-                        </td>
-                    `;
+                    row.innerHTML = `<td colspan="8" style="text-align: center; color: #666; padding: 20px;">暂无学生数据</td>`;
                     tbody.appendChild(row);
-                });
+                } else {
+                    students.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${student.student_id}</td>
+                            <td>${student.name}</td>
+                            <td>${student.gender}</td>
+                            <td>${student.age}</td>
+                            <td>${student.class_name}</td>
+                            <td>${student.email || '-'}</td>
+                            <td>${student.phone || '-'}</td>
+                            <td class="actions">
+                                <button class="edit-btn" onclick="editStudent('${student.student_id}')">编辑</button>
+                                <button class="delete-btn" onclick="deleteStudent('${student.student_id}')">删除</button>
+                                <button onclick="viewStudentGrades('${student.student_id}')">成绩</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
             } catch (error) {
+                showError('studentsError', '加载学生列表失败: ' + error.message);
                 console.error('加载学生列表失败:', error);
+            } finally {
+                showLoading('studentsLoading', false);
+            }
+        }
+        
+        // 搜索学生
+        async function searchStudents() {
+            const keyword = document.getElementById('studentSearch').value.trim();
+            if (!keyword) {
+                loadStudents();
+                return;
+            }
+            
+            showLoading('studentsLoading', true);
+            hideError('studentsError');
+            
+            try {
+                const response = await fetch(`/api/students/search/${encodeURIComponent(keyword)}`);
+                if (!response.ok) throw new Error('搜索失败');
+                
+                const students = await response.json();
+                
+                const tbody = document.querySelector('#studentsTable tbody');
+                tbody.innerHTML = '';
+                
+                if (students.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td colspan="8" style="text-align: center;">未找到匹配的学生</td>`;
+                    tbody.appendChild(row);
+                } else {
+                    students.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${student.student_id}</td>
+                            <td>${student.name}</td>
+                            <td>${student.gender}</td>
+                            <td>${student.age}</td>
+                            <td>${student.class_name}</td>
+                            <td>${student.email || '-'}</td>
+                            <td>${student.phone || '-'}</td>
+                            <td class="actions">
+                                <button class="edit-btn" onclick="editStudent('${student.student_id}')">编辑</button>
+                                <button class="delete-btn" onclick="deleteStudent('${student.student_id}')">删除</button>
+                                <button onclick="viewStudentGrades('${student.student_id}')">成绩</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            } catch (error) {
+                showError('studentsError', '搜索失败: ' + error.message);
+            } finally {
+                showLoading('studentsLoading', false);
+            }
+        }
+        
+        // 加载学生统计
+        async function loadStudentsStats() {
+            try {
+                const response = await fetch('/api/statistics/summary');
+                if (!response.ok) return;
+                
+                const stats = await response.json();
+                
+                const container = document.getElementById('studentsStats');
+                container.innerHTML = `
+                    <div class="stat-item">
+                        <div class="stat-number">${stats.total_students}</div>
+                        <div class="stat-label">学生总数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${stats.total_classes}</div>
+                        <div class="stat-label">班级数量</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${stats.total_courses}</div>
+                        <div class="stat-label">课程总数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${stats.total_grades}</div>
+                        <div class="stat-label">成绩记录</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('加载统计失败:', error);
             }
         }
         
@@ -420,23 +780,33 @@
         async function loadCourses() {
             try {
                 const response = await fetch('/api/courses');
+                if (!response.ok) throw new Error('网络请求失败');
+                
                 const courses = await response.json();
                 
                 const tbody = document.querySelector('#coursesTable tbody');
                 tbody.innerHTML = '';
                 
-                courses.forEach(course => {
+                if (courses.length === 0) {
                     const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${course.course_code}</td>
-                        <td>${course.course_name}</td>
-                        <td>${course.teacher}</td>
-                        <td>${course.credit}</td>
-                    `;
+                    row.innerHTML = `<td colspan="4" style="text-align: center; color: #666; padding: 20px;">暂无课程数据</td>`;
                     tbody.appendChild(row);
-                });
+                } else {
+                    courses.forEach(course => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${course.course_code}</td>
+                            <td>${course.course_name}</td>
+                            <td>${course.teacher}</td>
+                            <td>${course.credit}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
             } catch (error) {
                 console.error('加载课程列表失败:', error);
+                const tbody = document.querySelector('#coursesTable tbody');
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #dc3545; padding: 20px;">加载课程列表失败</td></tr>`;
             }
         }
         
@@ -476,23 +846,33 @@
         async function loadGrades() {
             try {
                 const response = await fetch('/api/grades');
+                if (!response.ok) throw new Error('网络请求失败');
+                
                 const grades = await response.json();
                 
                 const tbody = document.querySelector('#gradesTable tbody');
                 tbody.innerHTML = '';
                 
-                grades.forEach(grade => {
+                if (grades.length === 0) {
                     const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${grade.student_name}</td>
-                        <td>${grade.course_name}</td>
-                        <td>${grade.score}</td>
-                        <td>${grade.semester}</td>
-                    `;
+                    row.innerHTML = `<td colspan="4" style="text-align: center; color: #666; padding: 20px;">暂无成绩数据</td>`;
                     tbody.appendChild(row);
-                });
+                } else {
+                    grades.forEach(grade => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${grade.student_name}</td>
+                            <td>${grade.course_name}</td>
+                            <td>${grade.score}</td>
+                            <td>${grade.semester}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
             } catch (error) {
                 console.error('加载成绩列表失败:', error);
+                const tbody = document.querySelector('#gradesTable tbody');
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #dc3545; padding: 20px;">加载成绩列表失败</td></tr>`;
             }
         }
         
@@ -522,7 +902,7 @@
         
         // 删除学生
         async function deleteStudent(studentId) {
-            if (confirm('确定要删除这个学生吗？')) {
+            if (confirm('确定要删除这个学生吗？这将同时删除该学生的所有成绩记录。')) {
                 try {
                     const response = await fetch(`/api/students/${studentId}`, {
                         method: 'DELETE'
@@ -531,6 +911,7 @@
                     if (response.ok) {
                         alert('学生删除成功');
                         loadStudents();
+                        loadStatisticsSummary();
                     } else {
                         alert('删除失败');
                     }
@@ -540,12 +921,17 @@
             }
         }
         
-        // 编辑学生（简化版）
+        // 编辑学生
         async function editStudent(studentId) {
-            const newName = prompt('请输入新的姓名:');
-            if (newName) {
-                try {
-                    const response = await fetch(`/api/students/${studentId}`, {
+            try {
+                const response = await fetch(`/api/students/${studentId}`);
+                if (!response.ok) throw new Error('获取学生信息失败');
+                
+                const student = await response.json();
+                
+                const newName = prompt('请输入新的姓名:', student.name);
+                if (newName && newName !== student.name) {
+                    const updateResponse = await fetch(`/api/students/${studentId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -553,24 +939,183 @@
                         body: JSON.stringify({ name: newName })
                     });
                     
-                    if (response.ok) {
+                    if (updateResponse.ok) {
                         alert('学生信息更新成功');
                         loadStudents();
                     } else {
                         alert('更新失败');
                     }
-                } catch (error) {
-                    alert('网络错误: ' + error.message);
                 }
+            } catch (error) {
+                alert('网络错误: ' + error.message);
+            }
+        }
+        
+        // 查看学生成绩
+        async function viewStudentGrades(studentId) {
+            try {
+                const response = await fetch(`/api/students/${studentId}/grades`);
+                if (!response.ok) throw new Error('获取成绩失败');
+                
+                const grades = await response.json();
+                
+                if (grades.length === 0) {
+                    alert('该学生暂无成绩记录');
+                    return;
+                }
+                
+                let message = '学生成绩详情：\
+\
+';
+                grades.forEach(grade => {
+                    message += `课程: ${grade.course_name}\
+`;
+                    message += `成绩: ${grade.score}\
+`;
+                    message += `学期: ${grade.semester}\
+`;
+                    message += `学分: ${grade.credit}\
+`;
+                    message += '----------------\
+';
+                });
+                
+                alert(message);
+            } catch (error) {
+                alert('获取成绩失败: ' + error.message);
+            }
+        }
+        
+        // 加载统计摘要
+        async function loadStatisticsSummary() {
+            await loadStudentsStats();
+        }
+        
+        // 显示/隐藏加载状态
+        function showLoading(elementId, show) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.display = show ? 'block' : 'none';
+            }
+        }
+        
+        // 显示错误信息
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+        }
+        
+        // 隐藏错误信息
+        function hideError(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.display = 'none';
+            }
+        }
+        
+        // 数据库模式切换
+        let currentMode = 'supabase';
+        
+        // 切换数据库模式
+        async function switchDbMode() {
+            const mode = document.getElementById('dbMode').value;
+            currentMode = mode;
+            
+            const statusElement = document.getElementById('dbStatus');
+            const statusDot = statusElement.querySelector('.status-dot');
+            const statusText = statusElement.querySelector('.status-text');
+            
+            // 重置状态
+            statusElement.className = 'db-status';
+            statusDot.style.background = '#ffa500';
+            statusText.textContent = '检查中...';
+            
+            if (mode === 'supabase') {
+                // 测试Supabase连接
+                try {
+                    const response = await fetch('/api/supabase/status');
+                    const data = await response.json();
+                    
+                    if (data.status === 'connected') {
+                        statusElement.classList.add('connected');
+                        statusDot.style.background = '#28a745';
+                        statusText.textContent = 'Supabase (已连接)';
+                    } else if (data.status === 'warning') {
+                        statusElement.classList.add('warning');
+                        statusDot.style.background = '#ffc107';
+                        statusText.textContent = 'Supabase (表未创建)';
+                    } else {
+                        statusElement.classList.add('error');
+                        statusDot.style.background = '#dc3545';
+                        statusText.textContent = 'Supabase (连接失败)';
+                    }
+                } catch (error) {
+                    statusElement.classList.add('error');
+                    statusDot.style.background = '#dc3545';
+                    statusText.textContent = 'Supabase (连接错误)';
+                }
+            } else {
+                // SQLite模式
+                statusElement.classList.add('connected');
+                statusDot.style.background = '#007bff';
+                statusText.textContent = 'SQLite (本地)';
+            }
+            
+            // 重新加载数据
+            loadStudents();
+            loadCourses();
+            loadGrades();
+            loadStatistics();
+            loadStatisticsSummary();
+        }
+        
+        // 检查Supabase连接状态
+        async function checkSupabaseStatus() {
+            const statusElement = document.getElementById('dbStatus');
+            const statusDot = statusElement.querySelector('.status-dot');
+            const statusText = statusElement.querySelector('.status-text');
+            
+            try {
+                const response = await fetch('/api/supabase/status');
+                const data = await response.json();
+                
+                if (data.status === 'connected') {
+                    statusElement.classList.add('connected');
+                    statusDot.style.background = '#28a745';
+                    statusText.textContent = 'Supabase (已连接)';
+                } else if (data.status === 'warning') {
+                    statusElement.classList.add('warning');
+                    statusDot.style.background = '#ffc107';
+                    statusText.textContent = 'Supabase (表未创建)';
+                } else {
+                    statusElement.classList.add('error');
+                    statusDot.style.background = '#dc3545';
+                    statusText.textContent = 'Supabase (连接失败)';
+                }
+            } catch (error) {
+                statusElement.classList.add('error');
+                statusDot.style.background = '#dc3545';
+                statusText.textContent = 'Supabase (连接错误)';
             }
         }
         
         // 页面加载时初始化数据
         window.onload = function() {
+            // 设置默认模式为Supabase
+            document.getElementById('dbMode').value = 'supabase';
+            
+            // 检查Supabase状态
+            checkSupabaseStatus();
+            
+            // 加载数据
             loadStudents();
             loadCourses();
             loadGrades();
             loadStatistics();
+            loadStatisticsSummary();
         };
     </script>
 </body>
