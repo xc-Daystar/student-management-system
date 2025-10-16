@@ -1,34 +1,26 @@
-from flask import Flask, request, jsonify
+from http.server import BaseHTTPRequestHandler
+import json
 import os
 import sys
 
 # 添加项目根目录到Python路径
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# 导入Flask应用
-from app import app as flask_app
-
-def lambda_handler(event, context):
-    """简化的Vercel Serverless函数适配器"""
+def handler(event, context):
+    """最简单的Vercel Serverless函数"""
     try:
-        # 创建Flask测试客户端
-        with flask_app.test_client() as client:
-            # 构建请求
-            method = event.get('httpMethod', 'GET')
-            path = event.get('path', '/')
-            headers = event.get('headers', {})
-            body = event.get('body', '')
+        # 导入Flask应用（延迟导入避免循环依赖）
+        from app import app as flask_app
+        
+        # 使用Flask测试客户端处理请求
+        with flask_app.test_request_context(
+            path=event.get('path', '/'),
+            method=event.get('httpMethod', 'GET'),
+            headers=event.get('headers', {}),
+            data=event.get('body', '')
+        ):
+            response = flask_app.full_dispatch_request()
             
-            # 发送请求
-            response = client.open(
-                path=path,
-                method=method,
-                headers=headers,
-                data=body,
-                content_type=headers.get('content-type', 'application/json')
-            )
-            
-            # 返回响应
             return {
                 'statusCode': response.status_code,
                 'headers': dict(response.headers),
@@ -39,5 +31,9 @@ def lambda_handler(event, context):
         return {
             'statusCode': 500,
             'headers': {'Content-Type': 'application/json'},
-            'body': f'{{"error": "Server error: {str(e)}"}}'
+            'body': json.dumps({'error': f'Server error: {str(e)}'})
         }
+
+# Vercel期望的函数
+def lambda_handler(event, context):
+    return handler(event, context)
