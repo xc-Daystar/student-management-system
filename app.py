@@ -21,12 +21,18 @@ def get_db_path():
         # 本地环境
         return 'student_management.db'
 
-# Supabase配置
-SUPABASE_URL = "https://uuhbirqghkmoqsugjcfh.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1aGJpcnFnaGttb3FzdWdqY2ZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MDkxMzUsImV4cCI6MjA3NjA4NTEzNX0.vDvWe84JPFkN493mEBNv9B6wsda4bkmSGiODntmYRPk"
+# Supabase配置 - 使用环境变量
+SUPABASE_URL = os.environ.get('SUPABASE_URL', "https://uuhbirqghkmoqsugjcfh.supabase.co")
+SUPABASE_KEY = os.environ.get('SUPABASE_ANON_KEY', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1aGJpcnFnaGttb3FzdWdqY2ZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MDkxMzUsImV4cCI6MjA3NjA4NTEzNV0.vDvWe84JPFkN493mEBNv9B6wsda4bkmSGiODntmYRPk")
 
 # 初始化Supabase客户端
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase = None
+if SUPABASE_URL and SUPABASE_KEY:
+    try:
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    except Exception as e:
+        print(f"Supabase客户端初始化失败: {e}")
+        supabase = None
 
 def get_supabase_client():
     try:
