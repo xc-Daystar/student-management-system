@@ -1,4 +1,4 @@
-import json
+from flask import Flask, request, jsonify
 import os
 import sys
 
@@ -8,40 +8,27 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # 导入Flask应用
 from app import app as flask_app
 
-def handler(event, context):
-    """Vercel Serverless函数处理程序 - AWS Lambda格式"""
+def lambda_handler(event, context):
+    """简化的Vercel Serverless函数适配器"""
     try:
-        # 设置环境变量
-        os.environ['VERCEL'] = 'true'
-        
-        # 构建WSGI环境
-        environ = {
-            'REQUEST_METHOD': event.get('httpMethod', 'GET'),
-            'PATH_INFO': event.get('path', '/'),
-            'QUERY_STRING': event.get('queryStringParameters', '') or '',
-            'CONTENT_TYPE': event.get('headers', {}).get('content-type', ''),
-            'CONTENT_LENGTH': str(len(event.get('body', '') or '')),
-            'wsgi.version': (1, 0),
-            'wsgi.url_scheme': 'https',
-            'wsgi.input': event.get('body', ''),
-            'wsgi.errors': sys.stderr,
-            'wsgi.multithread': False,
-            'wsgi.multiprocess': True,
-            'wsgi.run_once': False,
-            'SERVER_NAME': 'vercel',
-            'SERVER_PORT': '443',
-        }
-        
-        # 添加HTTP头
-        headers = event.get('headers', {})
-        for key, value in headers.items():
-            environ[f'HTTP_{key.upper().replace("-", "_")}'] = value
-        
-        # 处理请求
-        with flask_app.request_context(environ):
-            response = flask_app.full_dispatch_request()
+        # 创建Flask测试客户端
+        with flask_app.test_client() as client:
+            # 构建请求
+            method = event.get('httpMethod', 'GET')
+            path = event.get('path', '/')
+            headers = event.get('headers', {})
+            body = event.get('body', '')
             
-            # 返回Vercel期望的格式
+            # 发送请求
+            response = client.open(
+                path=path,
+                method=method,
+                headers=headers,
+                data=body,
+                content_type=headers.get('content-type', 'application/json')
+            )
+            
+            # 返回响应
             return {
                 'statusCode': response.status_code,
                 'headers': dict(response.headers),
@@ -49,13 +36,8 @@ def handler(event, context):
             }
             
     except Exception as e:
-        # 返回错误响应
         return {
             'statusCode': 500,
             'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps({'error': f'Server error: {str(e)}'})
+            'body': f'{{"error": "Server error: {str(e)}"}}'
         }
-
-# Vercel期望的函数名
-def lambda_handler(event, context):
-    return handler(event, context)
