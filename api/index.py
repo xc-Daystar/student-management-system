@@ -1,4 +1,3 @@
-from http.server import BaseHTTPRequestHandler
 import json
 import os
 import sys
@@ -9,22 +8,22 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # 导入Flask应用
 from app import app as flask_app
 
-def handler(request, context):
-    """Vercel Serverless函数处理程序 - 正确格式"""
+def handler(event, context):
+    """Vercel Serverless函数处理程序 - AWS Lambda格式"""
     try:
         # 设置环境变量
         os.environ['VERCEL'] = 'true'
         
         # 构建WSGI环境
         environ = {
-            'REQUEST_METHOD': request.get('httpMethod', 'GET'),
-            'PATH_INFO': request.get('path', '/'),
-            'QUERY_STRING': request.get('queryStringParameters', '') or '',
-            'CONTENT_TYPE': request.get('headers', {}).get('content-type', ''),
-            'CONTENT_LENGTH': str(len(request.get('body', '') or '')),
+            'REQUEST_METHOD': event.get('httpMethod', 'GET'),
+            'PATH_INFO': event.get('path', '/'),
+            'QUERY_STRING': event.get('queryStringParameters', '') or '',
+            'CONTENT_TYPE': event.get('headers', {}).get('content-type', ''),
+            'CONTENT_LENGTH': str(len(event.get('body', '') or '')),
             'wsgi.version': (1, 0),
             'wsgi.url_scheme': 'https',
-            'wsgi.input': request.get('body', ''),
+            'wsgi.input': event.get('body', ''),
             'wsgi.errors': sys.stderr,
             'wsgi.multithread': False,
             'wsgi.multiprocess': True,
@@ -34,7 +33,7 @@ def handler(request, context):
         }
         
         # 添加HTTP头
-        headers = request.get('headers', {})
+        headers = event.get('headers', {})
         for key, value in headers.items():
             environ[f'HTTP_{key.upper().replace("-", "_")}'] = value
         
@@ -57,6 +56,6 @@ def handler(request, context):
             'body': json.dumps({'error': f'Server error: {str(e)}'})
         }
 
-# 兼容AWS Lambda格式
+# Vercel期望的函数名
 def lambda_handler(event, context):
     return handler(event, context)
